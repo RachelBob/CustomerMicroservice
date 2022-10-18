@@ -9,10 +9,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Builder;
+
 
 @Entity
 @Table(name="Customers")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
 public class CustomerDetails {
 	
 	@Id
@@ -34,6 +37,19 @@ public class CustomerDetails {
 	
 	@Column(name="password")
 	private String password;
+	
+	
+
+	public CustomerDetails(Long customerId, String firstName, String lastName, String username, String email,
+			String password) {
+		super();
+		this.customerId = customerId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
 
 	public Long getCustomerId() {
 		return customerId;

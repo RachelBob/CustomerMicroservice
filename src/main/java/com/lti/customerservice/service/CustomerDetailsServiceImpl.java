@@ -2,10 +2,7 @@ package com.lti.customerservice.service;
 
 import java.util.Optional;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +11,6 @@ import com.lti.customerservice.exception.CustomerAlreadyExistsException;
 import com.lti.customerservice.exception.CustomerAutenticationFailed;
 import com.lti.customerservice.exception.CustomerNotFoundException;
 import com.lti.customerservice.repository.CustomerDetailsRepository;
-import com.lti.customerservice.utility.JWTUtil;
 
 @Service
 public class CustomerDetailsServiceImpl implements CustomerDetailsService {
