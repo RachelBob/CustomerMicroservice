@@ -40,16 +40,16 @@ public class CustomerController {
 	public ResponseEntity<CustomerDetails> addCustomer(@RequestBody CustomerDetails customer) {
 		logger.info("In customer controller -> addCustomer method : Request {}  " , customer);
 		CustomerDetails savedCustomer = customerService.saveCustomer(customer);
-		logger.info("Response {} ",savedCustomer);
+		logger.info("Response:uuid {} ",savedCustomer.getCustomerUuid());
 		return new ResponseEntity<CustomerDetails>(savedCustomer, HttpStatus.CREATED);
 	}
 
 	//http://localhost:8080/customers/1
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<CustomerDetails> getCustomerByID(@PathVariable(value = "id") Long id) {
 		logger.info("In Customer Controller -> getCustomerById method : ID {} ",id);
 		CustomerDetails customer = customerService.getCustomerById(id);
-		logger.info("Response {} ",customer);
+		logger.info("Response:uuid {} ",customer.getCustomerUuid());
 		return new ResponseEntity<CustomerDetails>(customer, HttpStatus.OK);
 		
 	}
@@ -59,9 +59,16 @@ public class CustomerController {
 	public ResponseEntity<CustomerDetails> getCustomerByName(@RequestParam(value = "username") String username) {
 		logger.info("Customer Controller :: getCustomerByName : username {} ",username);
 		CustomerDetails customer = customerService.getCustomerByName(username);
-		logger.info("Response :: {} " , customer);
+		logger.info("Response :: uuid  {} " , customer.getCustomerUuid());
 		return new ResponseEntity<CustomerDetails>(customer, HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/uuid/{uuid}")
+	public ResponseEntity<CustomerDetails> getCustomerByUuid(@PathVariable(value="uuid") String uuid){
+		logger.info("Customer Controller :: getCustomerByUuid : uuid {} ",uuid);
+		CustomerDetails customerByUuid = customerService.getCustomerByUuid(uuid);
+		return new ResponseEntity<CustomerDetails>(customerByUuid, HttpStatus.OK);
 	}
 	
 	@PostMapping("/authenticate_user")

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -47,7 +49,7 @@ public class CustomerControllerTest {
 
 	private CustomerDetails createCustomerStub() {
 
-		CustomerDetails customer = new CustomerDetails(11L, "Sneha12", "Patil12", "sp", "sp@g.c", "abcd");
+		CustomerDetails customer = new CustomerDetails(11L, "Sneha12", "Patil12", "sp", "sp@g.c", "abcd","aba");
 		return customer;
 
 	}

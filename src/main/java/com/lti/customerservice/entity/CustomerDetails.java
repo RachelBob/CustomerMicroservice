@@ -1,21 +1,24 @@
 package com.lti.customerservice.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
 @Table(name="Customers")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","customerId","password"})
 public class CustomerDetails {
 	
 	@Id
@@ -38,10 +41,20 @@ public class CustomerDetails {
 	@Column(name="password")
 	private String password;
 	
+
+	@Column(name="uuid")
+	private String customerUuid;
 	
+	
+	
+	
+	public CustomerDetails() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public CustomerDetails(Long customerId, String firstName, String lastName, String username, String email,
-			String password) {
+			String password, String customerUuid) {
 		super();
 		this.customerId = customerId;
 		this.firstName = firstName;
@@ -49,6 +62,7 @@ public class CustomerDetails {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.customerUuid = customerUuid;
 	}
 
 	public Long getCustomerId() {
@@ -99,12 +113,21 @@ public class CustomerDetails {
 		this.password = password;
 	}
 
+	public String getCustomerUuid() {
+		return customerUuid;
+	}
+
+	public void setCustomerUuid(String customerUuid) {
+		this.customerUuid = customerUuid;
+	}
+
 	@Override
 	public String toString() {
 		return "CustomerDetails [customerId=" + customerId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", username=" + username + ", email=" + email + ", password=" + password + "]";
+				+ ", username=" + username + ", email=" + email + ", password=" + password + ", customerUuid="
+				+ customerUuid + "]";
 	}
-	
+
 	
 
 }
