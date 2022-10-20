@@ -9,4 +9,5 @@ import com.lti.customerservice.entity.CustomerDetails;
 public interface CustomerDetailsRepository extends JpaRepository<CustomerDetails, Long> {
 	public CustomerDetails findByUsername(String username);
 	public CustomerDetails findByCustomerId(Long customerId);
+	public CustomerDetails findByCustomerUuid(String customerUuid);
 }

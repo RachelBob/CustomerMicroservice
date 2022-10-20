@@ -1,20 +1,18 @@
 package com.lti.customerservice.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.uuid.Generators;
 import com.lti.customerservice.entity.CustomerDetails;
 import com.lti.customerservice.exception.CustomerAlreadyExistsException;
 import com.lti.customerservice.exception.CustomerAutenticationFailed;
 import com.lti.customerservice.exception.CustomerNotFoundException;
 import com.lti.customerservice.repository.CustomerDetailsRepository;
-import com.lti.customerservice.utility.JWTUtil;
 
 @Service
 public class CustomerDetailsServiceImpl implements CustomerDetailsService {
@@ -27,10 +25,13 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	
 	@Override
 	public CustomerDetails saveCustomer(CustomerDetails customer) {
+		UUID uuid=Generators.timeBasedGenerator().generate();
+		
 		CustomerDetails savedCustomer=null;
 		savedCustomer=customerRepository.findByCustomerId(customer.getCustomerId());
 		if(savedCustomer == null) {
 			customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+			customer.setCustomerUuid(uuid.toString());
 			customerRepository.save(customer);
 		}
 		else
@@ -61,6 +62,13 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 		custObj.setPassword("");
 		return custObj;
 	
+	}
+
+	@Override
+	public CustomerDetails getCustomerByUuid(String customerUuid) {
+		Optional<CustomerDetails> optionalObj1=Optional.ofNullable(customerRepository.findByCustomerUuid(customerUuid));
+		CustomerDetails customer = optionalObj1.orElseThrow(()->new CustomerNotFoundException("Customer not found with id : "+customerUuid));
+		return customer;
 	}
 
 }
