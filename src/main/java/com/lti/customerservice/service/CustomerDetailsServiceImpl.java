@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.uuid.Generators;
 import com.lti.customerservice.entity.CustomerDetails;
+import com.lti.customerservice.entity.CustomerDetailsDTO;
 import com.lti.customerservice.exception.CustomerAlreadyExistsException;
 import com.lti.customerservice.exception.CustomerAutenticationFailed;
 import com.lti.customerservice.exception.CustomerNotFoundException;
@@ -64,12 +65,16 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 		return custObj;
 	
 	}
-
+	
 	@Override
-	public CustomerDetails getCustomerByUuid(String customerUuid) {
+	public CustomerDetailsDTO getCustomerByUuid(String customerUuid) {
+
 		Optional<CustomerDetails> optionalObj1=Optional.ofNullable(customerRepository.findByCustomerUuid(customerUuid));
 		CustomerDetails customer = optionalObj1.orElseThrow(()->new CustomerNotFoundException("Customer not found with id : "+customerUuid));
-		return customer;
+		CustomerDetailsDTO customerDTO=new CustomerDetailsDTO(customer.getCustomerId(), customer.getFirstName(), customer.getLastName(), customer.getUsername(), customer.getEmail(), customer.getPassword(), customer.getCustomerUuid());
+		return customerDTO;
+	
 	}
+
 
 }
