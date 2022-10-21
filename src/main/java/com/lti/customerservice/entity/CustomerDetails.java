@@ -1,29 +1,25 @@
 package com.lti.customerservice.entity;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
 @Table(name="Customers")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","customerId","password"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CustomerDetails {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="customer_id")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Long customerId;
 	
 	@Column(name="firstname")
@@ -38,7 +34,9 @@ public class CustomerDetails {
 	@Column(name="email")
 	private String email;
 	
+
 	@Column(name="password")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	
 
@@ -65,6 +63,7 @@ public class CustomerDetails {
 		this.customerUuid = customerUuid;
 	}
 
+	
 	public Long getCustomerId() {
 		return customerId;
 	}
@@ -105,6 +104,7 @@ public class CustomerDetails {
 		this.email = email;
 	}
 
+	
 	public String getPassword() {
 		return password;
 	}

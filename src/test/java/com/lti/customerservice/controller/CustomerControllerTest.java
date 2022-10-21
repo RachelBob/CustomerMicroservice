@@ -2,6 +2,7 @@ package com.lti.customerservice.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -27,9 +28,9 @@ public class CustomerControllerTest {
 	@Test
 	public void addCustomer() {
 		CustomerDetails customer = createCustomerStub();
-		when(service.saveCustomer(customer)).thenReturn(customer);
-		ResponseEntity<CustomerDetails> addedCustomer = controller.addCustomer(customer);
-		assertNotNull(addedCustomer);
+		when(service.saveCustomer(customer)).thenReturn(true);
+		ResponseEntity<Boolean> isSaved = controller.addCustomer(customer);
+		assertTrue(isSaved.getBody());
 		
 	}
 

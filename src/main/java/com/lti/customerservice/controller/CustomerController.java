@@ -37,11 +37,11 @@ public class CustomerController {
 
 	//http://localhost:8080/register-customer
 	@PostMapping("/register-customer")
-	public ResponseEntity<CustomerDetails> addCustomer(@RequestBody CustomerDetails customer) {
+	public ResponseEntity<Boolean> addCustomer(@RequestBody CustomerDetails customer) {
 		logger.info("In customer controller -> addCustomer method : Request {}  " , customer);
-		CustomerDetails savedCustomer = customerService.saveCustomer(customer);
-		logger.info("Response:uuid {} ",savedCustomer.getCustomerUuid());
-		return new ResponseEntity<CustomerDetails>(savedCustomer, HttpStatus.CREATED);
+		boolean isSaved = customerService.saveCustomer(customer);
+		logger.info("Customer registerd to DB is ",isSaved);
+		return new ResponseEntity<Boolean>(isSaved, HttpStatus.CREATED);
 	}
 
 	//http://localhost:8080/customers/1
@@ -55,8 +55,8 @@ public class CustomerController {
 	}
 
 	//http://localhost:8080/customers?username=snehap
-	@GetMapping("/getbyname")
-	public ResponseEntity<CustomerDetails> getCustomerByName(@RequestParam(value = "username") String username) {
+	@GetMapping("/username/{username}")
+	public ResponseEntity<CustomerDetails> getCustomerByName(@PathVariable(value = "username") String username) {
 		logger.info("Customer Controller :: getCustomerByName : username {} ",username);
 		CustomerDetails customer = customerService.getCustomerByName(username);
 		logger.info("Response :: uuid  {} " , customer.getCustomerUuid());

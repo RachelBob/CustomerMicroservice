@@ -24,19 +24,20 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
     PasswordEncoder passwordEncoder;
 	
 	@Override
-	public CustomerDetails saveCustomer(CustomerDetails customer) {
+	public boolean saveCustomer(CustomerDetails customer) {
 		UUID uuid=Generators.timeBasedGenerator().generate();
-		
+		boolean isSaved=false;
 		CustomerDetails savedCustomer=null;
 		savedCustomer=customerRepository.findByCustomerId(customer.getCustomerId());
 		if(savedCustomer == null) {
 			customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 			customer.setCustomerUuid(uuid.toString());
-			customerRepository.save(customer);
+			savedCustomer=customerRepository.save(customer);
+			isSaved=true;
 		}
 		else
 			throw new CustomerAlreadyExistsException();
-		return savedCustomer;
+		return isSaved;
 	}
 
 	@Override
