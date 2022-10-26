@@ -60,8 +60,6 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 	    CustomerDetails	custObj = customerRepository.findByUsername(req.getUsername());
 		if(!passwordEncoder.matches(req.getPassword(), custObj.getPassword()))
 			throw new CustomerAutenticationFailed();
-		
-		custObj.setPassword("");
 		return custObj;
 	
 	}
