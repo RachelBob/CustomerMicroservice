@@ -33,3 +33,5 @@ build/
 .vscode/
 /MyApp-2022-10-21.0.log
 /customerservice.log
+
+/logs

@@ -29,7 +29,7 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 		UUID uuid=Generators.timeBasedGenerator().generate();
 		boolean isSaved=false;
 		CustomerDetails savedCustomer=null;
-		savedCustomer=customerRepository.findByCustomerId(customer.getCustomerId());
+		savedCustomer=customerRepository.findByUsername(customer.getUsername());
 		if(savedCustomer == null) {
 			customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 			customer.setCustomerUuid(uuid.toString());
@@ -57,10 +57,14 @@ public class CustomerDetailsServiceImpl implements CustomerDetailsService {
 
 	@Override
 	public CustomerDetails authenticateCustomer(CustomerDetails req) {
-	    CustomerDetails	custObj = customerRepository.findByUsername(req.getUsername());
-		if(!passwordEncoder.matches(req.getPassword(), custObj.getPassword()))
+	   // CustomerDetails	custObj =   customerRepository.findByUsername(req.getUsername());
+		
+		Optional<CustomerDetails>	custObj =   Optional.ofNullable(customerRepository.findByUsername(req.getUsername()));
+		CustomerDetails customer =custObj.orElseThrow(()->new CustomerAutenticationFailed());
+		
+		if(!passwordEncoder.matches(req.getPassword(), customer.getPassword()))
 			throw new CustomerAutenticationFailed();
-		return custObj;
+		return customer;
 	
 	}
 	
